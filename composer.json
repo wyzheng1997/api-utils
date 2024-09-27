@@ -11,7 +11,10 @@
   "description": "一个适用于laravel开发API服务的工具包",
   "autoload": {
     "psr-4": {
-      "Ugly\\ApiUtils\\": "src/"
+      "Ugly\\ApiUtils\\": "src/",
+      "files": [
+        "src/helpers.php"
+      ]
     }
   },
   "authors": [
