@@ -1,0 +1,38 @@
+{
+  "name": "wyzheng/api-utils",
+  "license": "MIT",
+  "type": "library",
+  "version": "1.0.0",
+  "keywords": [
+    "api",
+    "utils",
+    "laravel"
+  ],
+  "description": "一个适用于laravel开发API服务的工具包",
+  "autoload": {
+    "psr-4": {
+      "Ugly\\ApiUtils\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "wyzheng",
+      "email": "wyzheng1997@163.com"
+    }
+  ],
+  "require": {
+    "php": "^8.0",
+    "laravel/framework": "^9.0|^10.0|^11.0",
+    "ext-bcmath": "*"
+  },
+  "require-dev": {
+    "laravel/pint": "^1.10"
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Ugly\\ApiUtils\\ServiceProvider"
+      ]
+    }
+  }
+}
