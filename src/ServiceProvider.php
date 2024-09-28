@@ -12,9 +12,7 @@ class ServiceProvider extends BaseServiceProvider
     public function register(): void
     {
         // 设置默认配置项
-        if (empty(config('ugly.sys_config'))) {
-            config('ugly.sys_config', include __DIR__.'/../config/config.php');
-        }
+        $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'ugly');
 
         // 注册 ugly.sys_config
         $this->app->singleton('ugly.sys_config', ConfigFluent::class);
