@@ -13,7 +13,7 @@ class ServiceProvider extends BaseServiceProvider
     {
         // 设置默认配置项
         if (empty(config('ugly.sys_config'))) {
-            config('ugly.sys_config', include '../config/config.php');
+            config('ugly.sys_config', include __DIR__.'/../config/config.php');
         }
 
         // 注册 ugly.sys_config

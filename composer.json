@@ -2,7 +2,7 @@
     "name": "wyzheng/api-utils",
     "license": "MIT",
     "type": "library",
-    "version": "1.0.0",
+    "version": "v1.0.0",
     "keywords": [
         "api",
         "utils",
@@ -11,11 +11,11 @@
     "description": "一个适用于laravel开发API服务的工具包",
     "autoload": {
         "psr-4": {
-            "Ugly\\ApiUtils\\": "src/",
-            "files": [
-                "src/helpers.php"
-            ]
-        }
+            "Ugly\\ApiUtils\\": "src/"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
     },
     "authors": [
         {
