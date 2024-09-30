@@ -10,13 +10,13 @@ use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @method static auth(array|\Closure $closure)
- * @method static validate(array|\Closure $rules)
- * @method static prepareInput(array|\Closure $closure)
- * @method static saving(array|\Closure $closure)
- * @method static saved(array|\Closure $closure)
- * @method static deleting(array|\Closure $closure)
- * @method static deleted(array|\Closure $closure)
+ * @method $this auth(array|\Closure $closure)
+ * @method $this validate(array|\Closure $rules)
+ * @method $this prepareInput(array|\Closure $closure)
+ * @method $this saving(array|\Closure $closure)
+ * @method $this saved(array|\Closure $closure)
+ * @method $this deleting(array|\Closure $closure)
+ * @method $this deleted(array|\Closure $closure)
  */
 class FormService
 {
@@ -116,6 +116,18 @@ class FormService
         $this->scene = $scene;
 
         return $this;
+    }
+
+    /**
+     * 获取表单输入值.
+     */
+    public function input(string $key, mixed $default = null)
+    {
+        if (array_key_exists($key, $this->safeData)) {
+            return $this->safeData[$key];
+        }
+
+        return request($key, $default);
     }
 
     /**
@@ -251,7 +263,7 @@ class FormService
      */
     public function __call(string $method, array $parameters)
     {
-        if (isset($this->hooks[$method])) {  // 设置hook
+        if (array_key_exists($method, $this->hooks)) {  // 设置hook
             $this->hooks[$method] = $parameters[0];
         }
 
@@ -324,7 +336,7 @@ class FormService
             }
         }
 
-        return [$rules, $ignore];
+        return [$ignore, $rules];
     }
 
     /**
