@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * 树状模型
+ *
+ * @mixin Model
  */
 trait HasTree
 {
@@ -44,7 +46,7 @@ trait HasTree
 
     protected static function booted(): void
     {
-
+        // 保存前检查上级合法性
         static::saving(function (Model $model) {
             $pidKey = $model->getPidKey();
             $pid = (int) $model->getAttribute($pidKey);
@@ -65,15 +67,17 @@ trait HasTree
 
         });
 
+        // 保存后更新层级和索引
         static::saved(function (Model $model) {
             // 保存后更新层级和索引
             $pidKey = $model->getPidKey();
-            if (! $model->isDirty($pidKey)) {
+            $levelKey = $model->getTreeLevelKey();
+            $pathKey = $model->getTreePathKey();
+
+            if ($model->getAttribute($pathKey) && ! $model->isDirty($pidKey)) {
                 return;
             }
 
-            $levelKey = $model->getTreeLevelKey();
-            $pathKey = $model->getTreePathKey();
             $pid = (int) $model->getAttribute($pidKey);
             $updateData = [$levelKey => 1, $pathKey => $model->getKey()];
 
