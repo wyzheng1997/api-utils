@@ -365,8 +365,8 @@ class FormService
         $value = request()->input('value');
 
         // 检查是否允许行内编辑
-        if (! in_array($field, array_keys($this->allowInlineUpdateFields))) {
-            ValidationException::withMessages([$field => '不允许修改！']);
+        if (! in_array($field, $this->allowInlineUpdateFields)) {
+            throw ValidationException::withMessages([$field => '不允许修改！']);
         }
 
         // 合并到请求中
