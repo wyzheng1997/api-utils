@@ -22,7 +22,7 @@ trait ApiResponse
      *  3、$this->success(['id' => 1]); 状态码 200，携带数据的响应
      *  4、$this->success(['id' => 1], 201); 状态码 201，携带数据的响应
      */
-    final public function success(array|int $data = [], int $status = Response::HTTP_OK): JsonResponse
+    final public function success(array|int|JsonResource $data = [], int $status = Response::HTTP_OK): JsonResponse
     {
         if (is_int($data)) {
             $status = $data;
