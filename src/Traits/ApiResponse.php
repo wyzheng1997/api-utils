@@ -61,8 +61,9 @@ trait ApiResponse
      *
      * @param  BuilderContract  $query  数据库查询构造器
      * @param  null|\Closure|string  $resource  资源转换类或者闭包
+     * @param  array|\Closure  $meta  自定义meta数据，或者闭包，返回自定义meta数据
      */
-    final public function paginate(BuilderContract $query, string|null|\Closure $resource = null): JsonResponse
+    final public function paginate(BuilderContract $query, string|null|\Closure $resource = null, array|\Closure $meta = []): JsonResponse
     {
         $page = request()->integer('page', 1);
         // 最少1，最多1000，默认15
@@ -70,13 +71,22 @@ trait ApiResponse
         $total = $query->count();
         $queryData = $query->skip(($page - 1) * $limit)->take($limit)->get();
 
+        // 处理meta数据
+        $defaultMeta = [
+            'total' => $total,
+            'current_page' => $page,
+            'last_page' => $total > 0 ? ceil($total / $limit) : 1,
+        ];
+        if ($meta instanceof \Closure) {
+            $defaultMeta = call_user_func($meta, $queryData, $defaultMeta);
+        }
+        if (is_array($meta)) {
+            $defaultMeta = array_merge($defaultMeta, $meta);
+        }
+
         return response()->json([
             'data' => $this->decodeResource($queryData, $resource),
-            'meta' => [
-                'total' => $total,
-                'current_page' => $page,
-                'last_page' => $total > 0 ? ceil($total / $limit) : 1,
-            ],
+            'meta' => $defaultMeta,
         ]);
     }
 
