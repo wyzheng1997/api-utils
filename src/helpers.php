@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Database\Schema\Blueprint;
+
 if (! function_exists('arr2tree')) {
     /**
      * 数组/集合 转换成树级结构。
@@ -21,5 +23,17 @@ if (! function_exists('arr2tree')) {
         unset($map);
 
         return $tree;
+    }
+}
+
+if (! function_exists('generate_tree_migrate')) {
+    /**
+     * 树形结构迁移.
+     */
+    function generate_tree_migrate(Blueprint $table, string $pid = 'pid', string $treeLevel = 'tree_level', string $treePath = 'tree_path'): void
+    {
+        $table->unsignedBigInteger($pid)->default(0)->comment('上级');
+        $table->unsignedTinyInteger($treeLevel)->default(1)->comment('树层级');
+        $table->string($treePath)->index()->default('')->comment('树索引路径');
     }
 }
