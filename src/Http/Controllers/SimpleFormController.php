@@ -19,7 +19,7 @@ class SimpleFormController extends Controller
         // 获取路由名
         $form = data_get(
             collect(config('ugly.simple_form', []))->where('name', $request->route()->getName())->first(),
-            $scene
+            'form.'.$scene
         );
 
         if (! ($form && isset(class_implements($form)[SimpleForm::class]))) {
