@@ -73,11 +73,7 @@ class ConfigFluent extends Fluent
     {
         $data = is_array($key) ? $key : [$key => $value];
         foreach ($data as $slug => $val) {
-            if (array_key_exists($slug, $this->attributes)) {
-                ConfigModel::query()->where('slug', $slug)->update(['value' => $val]);
-            } else {
-                ConfigModel::query()->create(['slug' => $slug, 'value' => $val]);
-            }
+            ConfigModel::query()->updateOrCreate(['slug' => $slug], ['value' => $val]);
         }
 
         // 清除缓存
